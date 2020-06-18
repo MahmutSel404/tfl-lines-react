@@ -1,24 +1,29 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from "react";
+import "./App.css";
 
 function App() {
+  const [modes, setModes] = useState([]);
+  const [selectedMode, setSelectedMode] = useState(null);
+
+  useEffect(() => {
+    fetch("https://api.tfl.gov.uk/Line/Meta/Modes")
+      .then((res) => res.json())
+      .then((data) => setModes(data));
+  }, []);
+
+  const changeHandler = (event) => {
+    setSelectedMode(event.target.value);
+  };
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <select onChange={changeHandler}>
+        <option> Select the Transport </option>
+        {modes.map((element, index) => {
+          return <option key={index}>{element.modeName}</option>;
+        })}
+      </select>
+      <h1>You selected mode:{selectedMode }</h1>
     </div>
   );
 }
