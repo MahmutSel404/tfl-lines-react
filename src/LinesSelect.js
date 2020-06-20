@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from "react";
 
-const LinesSelect = ({ selectedMode }) => {
+const LinesSelect = ({ selectedMode, selectedLine, setSelectedLine }) => {
   const [lines, setLines] = useState([]);
-  const [selectedLine, setSelectedLine] = useState(null);
-
+ 
   useEffect(() => {
     if (selectedMode) {
       fetch(`https://api.tfl.gov.uk/Line/Mode/${selectedMode}`)
@@ -22,8 +21,7 @@ const LinesSelect = ({ selectedMode }) => {
           return <option key={index}>{element.name}</option>;
         })}
       </select>
-      <h1>You selected line : {selectedLine}</h1>
-      
+      <p>You selected line : {selectedLine}</p>
     </div>
   );
 };
